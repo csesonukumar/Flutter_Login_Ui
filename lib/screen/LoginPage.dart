@@ -6,14 +6,16 @@ import 'package:note/screen/ForgotPassword.dart';
 import 'package:note/screen/SignUpScreen.dart';
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
   // TextEditingController for handling user input
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,22 +45,22 @@ class _LoginPageState extends State<LoginPage> {
                       // Username/Email input field
                       TextField(
                         controller: _usernameController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Username/Email',
                         ),
                       ),
-                      SizedBox(height: 16.0),
+                      const SizedBox(height: 16.0),
 
                       // Password input field
                       TextField(
                         controller: _passwordController,
                         obscureText:
                             true, // To hide the entered text (password)
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Password',
                         ),
                       ),
-                      SizedBox(height: 24.0),
+                      const SizedBox(height: 24.0),
 
                       // Sign-in button
                       ElevatedButton(
@@ -68,19 +70,19 @@ class _LoginPageState extends State<LoginPage> {
                           print('Username: ${_usernameController.text}');
                           print('Password: ${_passwordController.text}');
                         },
-                        child: Text('Sign In'),
+                        child: const Text('Sign In'),
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          Get.to(() => ForgotPasswordScreen());
+                          Get.to(() => const ForgotPasswordScreen());
                         },
-                        child: Text('Forgot Password'),
+                        child: const Text('Forgot Password'),
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          Get.to(() => SignUpScreen());
+                          Get.to(() => const SignUpScreen());
                         },
-                        child: Text("Don't have account "),
+                        child: const Text("Don't have account "),
                       ),
                     ],
                   ),

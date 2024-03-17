@@ -1,26 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart'; // Import Firebase Auth
 import 'package:lottie/lottie.dart';
 import 'package:note/common_utils/custom_text.dart';
-import 'package:note/common_utils/trial.dart';
+
+import 'LoginPage.dart';
+
 
 class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
+
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  // TextEditingController for handling user input
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  String username = '';
+  String phone = '';
+  String email = '';
+  String password = '';
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: LightText(text: "SignUp", color: Colors.red, size: 20.0)
+        title: LightText(text: "SignUp", color: Colors.red, size: 20.0),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -29,72 +40,79 @@ class _SignUpScreenState extends State<SignUpScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                    alignment: Alignment.center,
-                    height: 300,
-                    width: 400,
-                    child:
-                        Lottie.asset("animations/Animation - 1704464657536.json"),
-                  ),
-              // Username input field
+                alignment: Alignment.center,
+                height: 300,
+                width: 400,
+                child: Lottie.asset("animations/Animation - 1704464657536.json"),
+              ),
               TextField(
                 controller: _usernameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Username',
                 ),
               ),
-              SizedBox(height: 16.0),
-          
-              // Phone input field
+              const SizedBox(height: 16.0),
               TextField(
                 controller: _phoneController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Phone',
                 ),
               ),
-              SizedBox(height: 16.0),
-          
-              // Email input field
+              const SizedBox(height: 16.0),
               TextField(
                 controller: _emailController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Email',
                 ),
               ),
-              SizedBox(height: 16.0),
-          
-              // Password input field
+              const SizedBox(height: 16.0),
               TextField(
                 controller: _passwordController,
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Password',
                 ),
               ),
-              SizedBox(height: 24.0),
-          
-              // Signup button
+              const SizedBox(height: 24.0),
               ElevatedButton(
-                onPressed: () {
-                  // Add your signup logic here
-                  // For simplicity, we'll just print the entered values
-                  print('Username: ${_usernameController.text}');
-                  print('Phone: ${_phoneController.text}');
-                  print('Email: ${_emailController.text}');
-                  print('Password: ${_passwordController.text}');
+                onPressed: () async {
+                  // Store trimmed entered values in variables
+                  username = _usernameController.text.trim();
+                  phone = _phoneController.text.trim();
+                  email = _emailController.text.trim();
+                  password = _passwordController.text.trim();
+
+
+                    // Create a new user with email and password
+                    UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+                      email: email,
+                      password: password,
+                    );
+
+                    // Get the user ID and other information
+                    // User user = userCredential.user;
+
+                    // Print the user information
+                    // print('User ID: ${user.uid}');
+                    print('Username: $username');
+                    print('Phone: $phone');
+                    print('Email: $email');
+                    print('Password: $password');
+
+                    // Navigate to the next screen or perform other actions
+                    // (You can replace this with your navigation logic)
+                    // Get.to(() => NextScreen());
+
                 },
-                child: Text('Signup'),
+                child: const Text('Signup'),
               ),
-              SizedBox(height: 16.0),
-          
-              // Already have an account link/button
+              const SizedBox(height: 16.0),
               TextButton(
                 onPressed: () {
-                  Get.to(() => LoginPage());
-                  // Navigate to the login page or perform other actions
-                  // This is a placeholder, you should implement the navigation
+                  Get.to(() => const LoginPage());
                   print('Already have an account?');
                 },
-                child: Text('Already have an account? Login here'),
+                child: const Text('Already have an account? Login here'),
               ),
             ],
           ),
